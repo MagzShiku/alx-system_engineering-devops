@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# a Bash script that displays:
+# The content of the current directory
+# In a list format
+# Where only the part of the name after the first dash is
+# displayed (refer to the example)
+
+for fl in *
+do
+	if [ -f "$fl" ] && [[ "$fl" != .* ]]
+	then
+		my_file=$(echo "$fl" | cut -d'-' -f2-)
+		echo "$my_file"
+	fi
+done
