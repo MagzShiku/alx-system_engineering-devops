@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Write a Bash script that creates an RSA key pair.
+
+ssh-keygen -t rsa -b 4096 -C "vagrant@ubuntu" -f school
+
+if [ $? -eq 0 ]; then
+	echo "RSA key pair created successfully"
+else
+	echo "Failed to create RSA key pair"
+	exit 1
+fi
+
+echo "betty" | ssh-keygen -p -P "" -N "betty" -f school
+if [ $? -eq 0 ]; then
+	echo "Private key protected with passphrase"
+else
+	echo "Failed to protect private key with passphrase"
+	exit 1
+fi
