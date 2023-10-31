@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#  Install nginx web server
+
+apt-get update
+
+apt-get install -y nginx
+
+echo "server {
+ listen 80;
+ location / {
+  echo 'Hello World!';
+  }
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
+
+service nginx reload
