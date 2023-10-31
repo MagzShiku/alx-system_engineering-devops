@@ -2,14 +2,15 @@
 #  Install nginx web server
 
 sudo pt-get update
-ufw disable
+sudo fw disable
 sudo apt-get install -y nginx
+
+echo "Hello World!" > /var/www/html/index.html
 
 echo "server {
  listen 80;
- location / {
-  echo 'Hello World!';
-  }
+ root var/www/html;
+ index index.html;
 }" > /etc/nginx/sites-available/default
 
 service nginx restart
