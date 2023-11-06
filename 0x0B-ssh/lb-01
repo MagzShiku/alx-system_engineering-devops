@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# To log into my 1st server
+
+eval $("ssh-agent")
+ssh-add /home/vagrant/alx-system_engineering-devops/0x0B-ssh/school 
+
+ssh ubuntu@54.90.49.18
