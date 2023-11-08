@@ -1,0 +1,15 @@
+#!/bin/bash
+# a Bash script with the minimum number of commands to automate your fix
+
+if ! command -v nginx &> /dev/null; then
+	sudo apt-get update
+	sudo apt-get install -y nginx
+fi
+
+if ! sudo service nginx status &> /dev/null; then
+	sudo service nginx start
+fi
+
+sudo sed -i 's/listen 80;/listen 80 default_server;/g' /etc/nginx/nginx.conf
+
+sudo service nginx restart
