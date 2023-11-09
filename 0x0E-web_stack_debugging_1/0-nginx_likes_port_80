@@ -1,4 +1,4 @@
-#!/bin/env ash
+#!/bin/env bash
 # a Bash script with the minimum number of commands to automate your fix
 
 if ! command -v nginx &> /dev/null; then
