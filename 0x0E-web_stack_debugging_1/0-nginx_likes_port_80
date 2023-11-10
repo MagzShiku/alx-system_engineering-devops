@@ -1,7 +1,25 @@
 #!/usr/bin/env bash
 # a Bash script with the minimum number of commands to automate your fix
-if ! nc -z 0 80; then
+#if ! nc -z 0 80; then
+#	systemctl start nginx
+#	sed -i 's/listen\s*\(.*\)/listen 80;/g' /etc/nginx/nginx.conf
+#	systemctl restart nginx
+#fi
+
+if ! systemctl is-active --quiet nginx; then
 	systemctl start nginx
-	sed -i 's/listen\s*\(.*\)/listen 80;/g' /etc/nginx/nginx.conf
-	systemctl restart nginx
 fi
+
+if ! grep -q "listen\s*80" /etc/nginx/nginx.conf; then
+	sed -i 's/listen\s*\(.*\)/listen 80;/g' /etc/nginx/nginx.conf
+fi
+
+if ! sudo lsof -i :80; then
+	echo "No conflicting process found on port 80."
+fi
+
+if ! sudo ufw status | grep -q "80.*ALLOW"; then
+	sudo ufw allow 80
+fi
+
+systemctl restart nginx
