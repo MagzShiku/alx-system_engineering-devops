@@ -1,3 +1,4 @@
 #!/bin/env bash
 # a Bash script with the minimum number of commands to automate your fix
-! grep -q "listen 80" /etc/nginx/sites-available/default && sudo sed -i 's/listen [::]:80 default_server;/listen 80 default_server;/g' /etc/nginx/sites-available/default && sudo service nginx restart
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+service nginx restart
