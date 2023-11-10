@@ -1,32 +1,5 @@
 #!/usr/bin/env bash
-# a Bash script with the minimum number of commands to automate your fix
-#if ! nc -z 0 80; then
-#	systemctl start nginx
-#	sed -i 's/listen\s*\(.*\)/listen 80;/g' /etc/nginx/nginx.conf
-#	systemctl restart nginx
-#fi
+# listens to port 80 and return http 200 on 80 after execution
 
-if ! systemctl is-active --quiet nginx; then
-	systemctl start nginx
-fi
-
-if ! grep -q "listen\s*80" /etc/nginx/nginx.conf; then
-	sed -i 's/listen\s*\(.*\)/listen 80;/g' /etc/nginx/nginx.conf
-fi
-
-if ! sudo lsof -i :80; then
-	echo "No conflicting process found on port 80."
-fi
-
-if ! sudo ufw status | grep -q "80.*ALLOW"; then
-	sudo ufw allow 80
-fi
-
-systemctl restart nginx
-
-response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost)
-if [[ $response -eq 200 ]]; then
-	echo "Nginx is running and returning a web page with HTTP 200 on port 80."
-else
-	echo "Nginx is not returning the expected response. Please check the configuration."
-fi
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx start
