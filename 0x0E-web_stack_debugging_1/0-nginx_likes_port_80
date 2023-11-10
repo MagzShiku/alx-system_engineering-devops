@@ -23,3 +23,10 @@ if ! sudo ufw status | grep -q "80.*ALLOW"; then
 fi
 
 systemctl restart nginx
+
+response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost)
+if [[ $response -eq 200 ]]; then
+	echo "Nginx is running and returning a web page with HTTP 200 on port 80."
+else
+	echo "Nginx is not returning the expected response. Please check the configuration."
+fi
