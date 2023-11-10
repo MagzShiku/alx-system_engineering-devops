@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 # a Bash script with the minimum number of commands to automate your fix
-sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
-service nginx restart
+if ! nc -z 0 80; then
+	systemctl start nginx
+	sed -i 's/listen\s*\(.*\)/listen 80;/g' /etc/nginx/nginx.conf
+	systemctl restart nginx
+fi
