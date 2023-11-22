@@ -1,6 +1,6 @@
 ### installing mysql version 5.7
 
-# the installation should be in my alx server web_01
+# the installation should be in my alx server web_02 and web_01
 
 # STEP 1
 visit  dev.mysql.com and copy the public key
