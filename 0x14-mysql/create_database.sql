@@ -1,5 +1,5 @@
 -- Create the database
--- CREATE DATABASE tyrell_corp;
+CREATE DATABASE tyrell_corp;
 
 -- Use the database
 USE tyrell_corp;
