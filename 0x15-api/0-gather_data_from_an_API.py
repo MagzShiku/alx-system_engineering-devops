@@ -19,9 +19,9 @@
         TASK_TITLE (with 1 tabulation and 1 space before the TASK_TITLE)
 
 """
-import urllib.request
 import json
 import sys
+import urllib.request
 
 
 def get_employee_todo_list(employee_id):
