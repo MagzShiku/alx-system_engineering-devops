@@ -1,48 +1,37 @@
 #!/usr/bin/python3
 
 """
-   Python script that uses REST API (https://jsonplaceholder.typicode.com/) 
-   to return TODO list progress for a given employee ID
-
-   Requirements:
-   - Use urllib module
-   - Accept integer parameter (employee ID)
-   - Display progress in specified format
+Python script that, using a REST API, for a given employee ID,
+returns information about his/her TODO list progress.
 """
 
-
-import requests
-import sys
-
-
-
-def get_employee_todos(employee_id):
-  url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
-  response = requests.get(url)
-  return response.json()
-
-
-def get_employee_name(employee_id):
-  url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-  response = requests.get(url)  
-  return response.json()["name"]
-
-
-def display_progress(employee_id):
-  todos = get_employee_todos(employee_id)
-  name = get_employee_name(employee_id)
-
-  completed = 0
-  total = len(todos)
-
-  for todo in todos:
-    if todo["completed"]:
-      completed += 1
-      print(f"\t{todo['title']}")
-
-  print(f"Employee {name} is done with tasks({completed}/{total}):")
+from requests import get
+from sys import argv
 
 
 if __name__ == "__main__":
-  employee_id = int(sys.argv[1])
-  display_progress(employee_id)
+    response = get('https://jsonplaceholder.typicode.com/todos/')
+    data = response.json()
+    completed = 0
+    total = 0
+    tasks = []
+    response2 = get('https://jsonplaceholder.typicode.com/users')
+    data2 = response2.json()
+
+    for i in data2:
+        if i.get('id') == int(argv[1]):
+            employee = i.get('name')
+
+    for i in data:
+        if i.get('userId') == int(argv[1]):
+            total += 1
+
+            if i.get('completed') is True:
+                completed += 1
+                tasks.append(i.get('title'))
+
+    print("Employee {} is done with tasks({}/{}):".format(employee, completed,
+                                                          total))
+
+    for i in tasks:
+        print("\t {}".format(i))
