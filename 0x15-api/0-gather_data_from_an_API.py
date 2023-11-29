@@ -1,37 +1,61 @@
 #!/usr/bin/python3
 
 """
-Python script that, using a REST API, for a given employee ID,
-returns information about his/her TODO list progress.
+   Python script that uses REST API (https://jsonplaceholder.typicode.com/) 
+   to return TODO list progress for a given employee ID
+
+   Requirements:
+   - Use urllib module
+   - Accept integer parameter (employee ID)
+   - Display progress in specified format
 """
 
-from requests import get
-from sys import argv
+import json
+import sys 
+import urllib.request
 
+
+def get_employee_todo_list(employee_id):
+
+    """
+       Retrieves TODO list by appending ID to URL  
+       Reads and parses JSON response
+    """
+
+    url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+    response = urllib.request.urlopen(url)
+    todos = json.loads(response.read())
+    return todos
+
+
+def get_employee_name(employee_id):
+
+  """
+     Retrieves employee name from API
+  """
+
+  url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+  response = urllib.request.urlopen(url)
+  employee = json.loads(response.read())
+  return employee["name"]
+
+
+def display_employee_progress(employee_id):
+
+  """
+     Displays progress in specified format
+  """
+
+  todos = get_employee_todo_list(employee_id)
+  employee_name = get_employee_name(employee_id)
+
+  # rest of function
 
 if __name__ == "__main__":
-    response = get('https://jsonplaceholder.typicode.com/todos/')
-    data = response.json()
-    completed = 0
-    total = 0
-    tasks = []
-    response2 = get('https://jsonplaceholder.typicode.com/users')
-    data2 = response2.json()
 
-    for i in data2:
-        if i.get('id') == int(argv[1]):
-            employee = i.get('name')
+  """
+     Calls main function
+  """
 
-    for i in data:
-        if i.get('userId') == int(argv[1]):
-            total += 1
-
-            if i.get('completed') is True:
-                completed += 1
-                tasks.append(i.get('title'))
-
-    print("Employee {} is done with tasks({}/{}):".format(employee, completed,
-                                                          total))
-
-    for i in tasks:
-        print("\t {}".format(i))
+  employee_id = int(sys.argv[1])
+  display_employee_progress(employee_id)
