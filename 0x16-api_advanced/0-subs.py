@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 """
 goes to REDDIT asks it for:
     no. of subscribers
